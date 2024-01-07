@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Modern Login Page | AsmrProg</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+</head>
+
+<body>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body{
+            background-color: #c9d6ff;
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .container{
+            background-color: #fff;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+            position: relative;
+            overflow: hidden;
+            width: 768px;
+            max-width: 100%;
+            min-height: 480px;
+        }
+
+        .container p{
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: 0.3px;
+            margin: 20px 0;
+        }
+
+        .container span{
+            font-size: 12px;
+        }
+
+        .container a{
+            color: #333;
+            font-size: 13px;
+            text-decoration: none;
+            margin: 15px 0 10px;
+        }
+
+        .container button{
+            background-color: #512da8;
+            color: #fff;
+            font-size: 12px;
+            padding: 10px 45px;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .container button.hidden{
+            background-color: transparent;
+            border-color: #fff;
+        }
+
+        .container form{
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 40px;
+            height: 100%;
+        }
+
+        .container input{
+            background-color: #eee;
+            border: none;
+            margin: 8px 0;
+            padding: 10px 15px;
+            font-size: 13px;
+            border-radius: 8px;
+            width: 100%;
+            outline: none;
+        }
+
+        .form-container{
+            position: absolute;
+            top: 0;
+            height: 100%;
+            transition: all 0.6s ease-in-out;
+        }
+
+        .sign-in{
+            left: 0;
+            width: 50%;
+            z-index: 2;
+        }
+
+        .container.active .sign-in{
+            transform: translateX(100%);
+        }
+
+        .sign-up{
+            left: 0;
+            width: 50%;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .container.active .sign-up{
+            transform: translateX(100%);
+            opacity: 1;
+            z-index: 5;
+            animation: move 0.6s;
+        }
+
+        @keyframes move{
+            0%, 49.99%{
+                opacity: 0;
+                z-index: 1;
+            }
+            50%, 100%{
+                opacity: 1;
+                z-index: 5;
+            }
+        }
+
+        .social-icons{
+            margin: 20px 0;
+        }
+
+        .social-icons a{
+            border: 1px solid #ccc;
+            border-radius: 20%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 3px;
+            width: 40px;
+            height: 40px;
+        }
+
+        .toggle-container{
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: all 0.6s ease-in-out;
+            border-radius: 150px 0 0 100px;
+            z-index: 1000;
+        }
+
+        .container.active .toggle-container{
+            transform: translateX(-100%);
+            border-radius: 0 150px 100px 0;
+        }
+
+        .toggle{
+            background-color: #400000;
+            height: 100%;
+            background: linear-gradient(to right, #800000, #400000);
+            color: #fff;
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: all 0.6s ease-in-out;
+        }
+
+        .container.active .toggle{
+            transform: translateX(50%);
+        }
+
+        .toggle-panel{
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 30px;
+            text-align: center;
+            top: 0;
+            transform: translateX(0);
+            transition: all 0.6s ease-in-out;
+        }
+
+        .toggle-left{
+            transform: translateX(-200%);
+        }
+
+        .container.active .toggle-left{
+            transform: translateX(0);
+        }
+
+        .toggle-right{
+            right: 0;
+            transform: translateX(0);
+        }
+
+        .container.active .toggle-right{
+            transform: translateX(200%);
+        }
+        .container .form-container .form-control{
+            background-color: #fff;
+            border-radius: 10px;
+        }
+
+        .heading{
+            text-align: center;
+            padding-bottom: 1rem;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 2rem;
+        }
+
+        .heading span{
+            color: var(--main-color);
+            text-transform: uppercase;
+        }
+
+        .btn{
+            margin-left: 1rem;
+            margin-top: 1rem;
+            display: inline-block;
+            padding: .8rem 3rem;
+            font-size: 1.7rem;
+            border-radius: .5rem;
+            background: #666;
+            color: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .btn:hover{
+            background: var(--main-color);
+        }
+
+        .header{
+            position: fixed;
+            top:0; left: 0; right: 0;
+            z-index: 10000;
+            background: #400000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem 9%;
+        }
+
+        .header .logo{
+            font-weight: bolder;
+            color: #fff;
+            font-size: 2.5rem;
+        }
+
+        .header .logo span{
+            color:var(--main-color);
+        }
+
+        .header .navbar a{
+            font-size: 1.5rem;
+            color: #fff;
+            margin-left: 2rem;
+        }
+
+        .header .navbar a:hover{
+            color:var(--main-color);
+
+        }
+
+        #menu-bars{
+            font-size: 3rem;
+            color: #fff;
+            cursor: pointer;
+            display: none;
+        }
+        
+    </style>
+    <header class="header">
+        <a href="main.html" class="logo"><span>Saint</span>-Valentin</a>
+        <nav class="navbar">
+          <a href="main.html">home</a>
+          <a href="main.html">About Us</a>
+          <a href="main.html">Scores</a>
+          <a href="main.html"><button type="button" class="btn">Join Us</button></a>
+        </nav>
+  
+        <div id="menu-bars" class="fas fa-bars"></div>
+      </header>
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form>
+                <h1>Create Account</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registeration</span>
+                <input type="text" placeholder="Name" required>
+                <input type="password" placeholder="Password" required>
+                <input list="gendre" name="gendre" placeholder="Gendre" required>
+                <datalist id="gendre">
+                    <option value="Homme"></option>
+                    <option value="Femme"></option>
+                </datalist>
+                <input type="file" class="form-control" name="pp">
+                <button>Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form>
+                <h1>Sign In</h1>
+                <div class="social-icons">
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email password</span>
+                <input type="email" placeholder="Email">
+                <input type="password" placeholder="Password">
+                <a href="#">Forget Your Password?</a>
+                <button>Sign In</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Hello, Friend!</h1>
+                    <p>Register with your personal details to use all of site features</p>
+                    <button class="hidden" id="login">Sign In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+    <script>
+        const container = document.getElementById('container');
+        const registerBtn = document.getElementById('register');
+        const loginBtn = document.getElementById('login');
+
+        registerBtn.addEventListener('click', () => {
+            container.classList.add("active");
+        });
+
+        loginBtn.addEventListener('click', () => {
+            container.classList.remove("active");
+        });
+    </script>
+</body>
+
+</html>
